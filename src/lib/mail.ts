@@ -1,23 +1,74 @@
+
 import "server-only";
 
-type Mail = { subject: string; text: string; replyTo: string };
-export type MailResult = { ok: true } | { ok: false; reason: "not_configured" | "failed" };
+type Mail = {
+  subject: string;
+  text: string;
+  replyTo: string;
+};
 
-/**
- * Sends via Resend's REST API. Requires RESEND_API_KEY, MAIL_FROM and MAIL_TO.
- * Returns `not_configured` rather than pretending delivery succeeded.
- */
-export async function sendMail({ subject, text, replyTo }: Mail): Promise<MailResult> {
-  const { RESEND_API_KEY, MAIL_FROM, MAIL_TO } = process.env;
-  if (!RESEND_API_KEY || !MAIL_FROM || !MAIL_TO) return { ok: false, reason: "not_configured" };
+export type MailResult =
+  | { ok: true }
+  | { ok: false; reason: "not_configured" | "failed" };
+
+type FormSubmitResponse = {
+  success?: boolean | string;
+  message?: string;
+};
+
+export async function sendMail({
+  subject,
+  text,
+  replyTo,
+}: Mail): Promise<MailResult> {
+  const recipient = process.env.FORMSUBMIT_EMAIL?.trim();
+
+  if (!recipient || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(recipient)) {
+    return { ok: false, reason: "not_configured" };
+  }
+
   try {
-    const res = await fetch("https://api.resend.com/emails", {
-      method: "POST",
-      headers: { Authorization: `Bearer ${RESEND_API_KEY}`, "Content-Type": "application/json" },
-      body: JSON.stringify({ from: MAIL_FROM, to: [MAIL_TO], reply_to: replyTo, subject, text }),
-    });
-    return res.ok ? { ok: true } : { ok: false, reason: "failed" };
-  } catch {
+    const response = await fetch(
+      `https://formsubmit.co/ajax/${encodeURIComponent(recipient)}`,
+      {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Accept: "application/json",
+        },
+        body: JSON.stringify({
+          _subject: subject,
+          _replyto: replyTo,
+          _template: "table",
+          message: text,
+        }),
+        signal: AbortSignal.timeout(15000),
+        cache: "no-store",
+      },
+    );
+
+    const result = (await response
+      .json()
+      .catch(() => null)) as FormSubmitResponse | null;
+
+    const accepted =
+      result?.success === true || result?.success === "true";
+
+    if (!response.ok || !accepted) {
+      console.error("[Mail] FormSubmit rejected the request.", {
+        status: response.status,
+      });
+
+      return { ok: false, reason: "failed" };
+    }
+
+    return { ok: true };
+  } catch (error) {
+    console.error(
+      "[Mail] FormSubmit request failed:",
+      error instanceof Error ? error.message : "Unknown error",
+    );
+
     return { ok: false, reason: "failed" };
   }
 }

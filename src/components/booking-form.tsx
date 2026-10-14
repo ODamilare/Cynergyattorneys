@@ -9,7 +9,6 @@ import { practiceAreas } from "@/content/data";
 import { METHODS, TIME_WINDOWS } from "@/lib/booking";
 import { consultationSchema, flatten } from "@/lib/schemas";
 
-const FORM_SUBMIT_EMAIL = "oluwashanud101@gmail.com";
 
 type FormStatus = "idle" | "loading" | "success" | "error";
 
@@ -120,9 +119,7 @@ try {
 
   return (
    <form
-  onSubmit={(event) => {
-    void onSubmit(event);
-  }}
+  action="https://formsubmit.app/f/vaxjuw9zbs" method="POST"
   noValidate
   className="space-y-6"
 >
@@ -130,15 +127,7 @@ try {
         aria-hidden="true"
         className="absolute -left-[10000px] h-px w-px overflow-hidden"
       >
-        <label htmlFor="company">Leave this field empty</label>
-        <input
-          id="company"
-          type="text"
-          name="company"
-          tabIndex={-1}
-          autoComplete="off"
-        />
-      </div>
+       
 
       <div className="grid gap-6 sm:grid-cols-2">
         <Field id="fullName" label="Full name" error={errors.fullName}>

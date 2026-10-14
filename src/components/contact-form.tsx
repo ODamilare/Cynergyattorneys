@@ -17,8 +17,8 @@ export function ContactForm() {
   }
 
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-6">
-      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
+    <form  action="https://formsubmit.app/f/vaxjuw9zbs" method="POST" noValidate className="space-y-6">
+
       <Field id="name" label="Full name" error={errors.name}><input id="name" name="name" autoComplete="name" required className={inputClass} {...a("name")} /></Field>
       <div className="grid gap-6 sm:grid-cols-2">
         <Field id="email" label="Email" error={errors.email}><input id="email" name="email" type="email" autoComplete="email" required className={inputClass} {...a("email")} /></Field>
@@ -33,10 +33,18 @@ export function ContactForm() {
       <Field id="message" label="Message" error={errors.message} hint="Please do not include confidential details.">
         <textarea id="message" name="message" rows={6} required className={inputClass} {...a("message")} />
       </Field>
-      <button type="submit" disabled={status === "loading"} className={`${btn("primary")} w-full disabled:opacity-60 sm:w-auto`}>
-        {status === "loading" && <Loader2 size={16} className="animate-spin" aria-hidden />}
-        {status === "loading" ? "Sending…" : "Send message"}
-      </button>
+   <button
+  type="submit"
+  disabled={status === "loading"}
+  className={`${btn("primary")} w-full disabled:cursor-not-allowed disabled:opacity-60 sm:w-auto`}
+>
+  {status === "loading" && (
+    <Loader2 size={16} className="animate-spin" aria-hidden="true" />
+  )}
+  {status === "loading"
+    ? "Sending..."
+    : "Request a consultation"}
+</button>
       <StatusNotice status={status} message={message} success={{ title: "Message sent", body: "Thank you. The firm will respond to your enquiry as soon as it can." }} />
     </form>
   );
