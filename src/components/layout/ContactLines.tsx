@@ -21,7 +21,13 @@ export function ContactLines({ tone = "light" }: { tone?: "light" | "dark" }) {
   return (
     <dl className="space-y-5">
       {rows.map(({ key, label, Icon }) => {
-        const value: string = firm.contact[key];
+       const contactValues: Record<string, string> = {
+  phone: firm.phone,
+  email: firm.email,
+  whatsapp: firm.whatsapp,
+};
+
+const value = contactValues[key] ?? "";
         const href = hrefFor(key, value);
         return (
           <div key={key} className="flex gap-4">

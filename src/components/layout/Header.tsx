@@ -26,9 +26,16 @@ export function Header() {
 
   return (
     <header className="sticky top-0 z-40 border-b border-mist bg-paper/95 backdrop-blur-sm">
-      <Container className="flex h-24 items-center justify-between gap-6">
+      <Container className="flex min-h-28 items-center justify-between gap-6 py-3">
         <Link href="/" aria-label={`${firm.name}, home`} className="shrink-0">
-          <Image src="/logo.png" alt={firm.name} width={1175} height={485} priority className="h-14 w-auto sm:h-16" />
+         <Image
+  src="/logo1.png"
+  alt={firm.name}
+  width={1275}
+  height={485}
+  priority
+  className="h-20 w-auto sm:h-24"
+/>
         </Link>
 
         <nav aria-label="Primary" className="hidden items-center gap-9 lg:flex">

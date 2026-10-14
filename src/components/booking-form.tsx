@@ -1,79 +1,361 @@
+
 "use client";
+
 import { useEffect, useState } from "react";
-import { Loader2 } from "lucide-react";
-import { Field, StatusNotice, inputClass } from "@/components/fields";
+import { Loader2, CheckCircle2, AlertCircle } from "lucide-react";
+import { Field, inputClass } from "@/components/fields";
 import { btn } from "@/components/ui";
 import { practiceAreas } from "@/content/data";
 import { METHODS, TIME_WINDOWS } from "@/lib/booking";
-import { consultationSchema } from "@/lib/schemas";
-import { useSubmit } from "@/lib/use-submit";
+import { consultationSchema, flatten } from "@/lib/schemas";
 
-export function BookingForm({ defaultArea = "" }: { defaultArea?: string }) {
-  const { status, errors, message, submit } = useSubmit("/api/consultation", consultationSchema);
+const FORM_SUBMIT_EMAIL = "oluwashanud101@gmail.com";
+
+type FormStatus = "idle" | "loading" | "success" | "error";
+
+export function BookingForm({
+  defaultArea = "",
+}: {
+  defaultArea?: string;
+}) {
+  const [status, setStatus] = useState<FormStatus>("idle");
+  const [errors, setErrors] = useState<Record<string, string>>({});
+  const [message, setMessage] = useState("");
   const [today, setToday] = useState("");
-  useEffect(() => {
-    const d = new Date();
-    setToday(new Date(d.getTime() - d.getTimezoneOffset() * 60000).toISOString().slice(0, 10));
-  }, []);
-  const a = (k: string) => ({ "aria-invalid": !!errors[k], "aria-describedby": errors[k] ? `${k}-error` : undefined });
-  const radio = "flex cursor-pointer items-center gap-3 border border-line bg-white px-4 py-3 text-sm has-[:checked]:border-navy has-[:checked]:bg-navy/5 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue";
 
-  async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
-    e.preventDefault();
-    const form = e.currentTarget;
-    const fd = new FormData(form);
-    const raw = { ...Object.fromEntries(fd), acknowledge: fd.get("acknowledge") === "on" };
-    if (await submit(raw)) form.reset();
+  useEffect(() => {
+    const date = new Date();
+    setToday(
+      new Date(date.getTime() - date.getTimezoneOffset() * 60000)
+        .toISOString()
+        .slice(0, 10),
+    );
+  }, []);
+
+  const a = (key: string) => ({
+    "aria-invalid": !!errors[key],
+    "aria-describedby": errors[key] ? `${key}-error` : undefined,
+  });
+
+  const radio =
+    "flex cursor-pointer items-center gap-3 border border-line bg-white px-4 py-3 text-sm has-[:checked]:border-navy has-[:checked]:bg-navy/5 has-[:focus-visible]:outline has-[:focus-visible]:outline-2 has-[:focus-visible]:outline-blue";
+
+  
+async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
+  e.preventDefault();
+
+  console.log("[BookingForm] 1. Submit handler started");
+
+  if (status === "loading") {
+    console.log("[BookingForm] 2. Already submitting");
+    return;
   }
 
+  const form = e.currentTarget;
+  
+const fd = new FormData(form);
+
+// Reject spam submissions, but don't block a legitimate empty field.
+
+
+const raw = {
+  ...Object.fromEntries(fd),
+  acknowledge: fd.get("acknowledge") === "on",
+};
+
+const parsed = consultationSchema.safeParse(raw);
+
+if (!parsed.success) {
+  const validationErrors = flatten(parsed.error.issues);
+  setErrors(validationErrors);
+  setStatus("error");
+  setMessage(
+    "Please correct the highlighted fields: " +
+      Object.values(validationErrors).join(" "),
+  );
+  return;
+}
+
+setErrors({});
+setMessage("Sending your consultation request…");
+setStatus("loading");
+
+try {
+  const response = await fetch("/api/consultation", {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json",
+      Accept: "application/json",
+    },
+    body: JSON.stringify(parsed.data),
+  });
+
+  const result = await response.json();
+
+  if (!response.ok || result.ok !== true) {
+    throw new Error(
+      typeof result.message === "string"
+        ? result.message
+        : "We could not submit your request. Please try again.",
+    );
+  }
+
+  form.reset();
+  setErrors({});
+  setStatus("success");
+  setMessage(
+    "Your consultation request has been received. The firm will contact you to confirm availability. Your appointment is not confirmed until the firm replies.",
+  );
+} catch (error) {
+  console.error("[BookingForm] Submission failed:", error);
+
+  setStatus("error");
+  setMessage(
+    error instanceof Error
+      ? error.message
+      : "We could not submit your request. Please try again.",
+  );
+}
+}
+
   return (
-    <form onSubmit={onSubmit} noValidate className="space-y-6">
-      <input type="text" name="company" tabIndex={-1} autoComplete="off" aria-hidden className="hidden" />
-      <div className="grid gap-6 sm:grid-cols-2">
-        <Field id="fullName" label="Full name" error={errors.fullName}><input id="fullName" name="fullName" autoComplete="name" required className={inputClass} {...a("fullName")} /></Field>
-        <Field id="phone" label="Phone number" error={errors.phone}><input id="phone" name="phone" type="tel" autoComplete="tel" required className={inputClass} {...a("phone")} /></Field>
+   <form
+  onSubmit={(event) => {
+    void onSubmit(event);
+  }}
+  noValidate
+  className="space-y-6"
+>
+      <div
+        aria-hidden="true"
+        className="absolute -left-[10000px] h-px w-px overflow-hidden"
+      >
+        <label htmlFor="company">Leave this field empty</label>
+        <input
+          id="company"
+          type="text"
+          name="company"
+          tabIndex={-1}
+          autoComplete="off"
+        />
       </div>
-      <Field id="email" label="Email" error={errors.email}><input id="email" name="email" type="email" autoComplete="email" required className={inputClass} {...a("email")} /></Field>
-      <Field id="area" label="Area of legal assistance" error={errors.area}>
-        <select id="area" name="area" defaultValue={defaultArea} required className={inputClass} {...a("area")}>
-          <option value="" disabled>Choose an area</option>
-          {practiceAreas.map((p) => <option key={p.slug} value={p.slug}>{p.title}</option>)}
+
+      <div className="grid gap-6 sm:grid-cols-2">
+        <Field id="fullName" label="Full name" error={errors.fullName}>
+          <input
+            id="fullName"
+            name="fullName"
+            autoComplete="name"
+            required
+            className={inputClass}
+            {...a("fullName")}
+          />
+        </Field>
+
+        <Field id="phone" label="Phone number" error={errors.phone}>
+          <input
+            id="phone"
+            name="phone"
+            type="tel"
+            autoComplete="tel"
+            required
+            className={inputClass}
+            {...a("phone")}
+          />
+        </Field>
+      </div>
+
+      <Field id="email" label="Email address" error={errors.email}>
+        <input
+          id="email"
+          name="email"
+          type="email"
+          autoComplete="email"
+          required
+          className={inputClass}
+          {...a("email")}
+        />
+      </Field>
+
+      <Field
+        id="area"
+        label="Area of legal assistance"
+        error={errors.area}
+      >
+        <select
+          id="area"
+          name="area"
+          defaultValue={defaultArea}
+          required
+          className={inputClass}
+          {...a("area")}
+        >
+          <option value="" disabled>
+            Choose an area
+          </option>
+
+          {practiceAreas.map((area) => (
+            <option key={area.slug} value={area.slug}>
+              {area.title}
+            </option>
+          ))}
+
           <option value="not-sure">I am not sure</option>
         </select>
       </Field>
+
       <div className="grid gap-6 sm:grid-cols-2">
-        <Field id="date" label="Preferred date" error={errors.date}><input id="date" name="date" type="date" min={today} required className={inputClass} {...a("date")} /></Field>
+        <Field id="date" label="Preferred date" error={errors.date}>
+          <input
+            id="date"
+            name="date"
+            type="date"
+            min={today || undefined}
+            required
+            className={inputClass}
+            {...a("date")}
+          />
+        </Field>
+
         <Field id="time" label="Preferred time" error={errors.time}>
-          <select id="time" name="time" defaultValue="" required className={inputClass} {...a("time")}>
-            <option value="" disabled>Choose a time</option>
-            {TIME_WINDOWS.map((t) => <option key={t.id} value={t.id}>{t.label}</option>)}
+          <select
+            id="time"
+            name="time"
+            defaultValue=""
+            required
+            className={inputClass}
+            {...a("time")}
+          >
+            <option value="" disabled>
+              Choose a time
+            </option>
+
+            {TIME_WINDOWS.map((time) => (
+              <option key={time.id} value={time.id}>
+                {time.label}
+              </option>
+            ))}
           </select>
         </Field>
       </div>
+
       <fieldset>
-        <legend className="mb-2 text-sm font-medium text-navy">Consultation method</legend>
+        <legend className="mb-3 text-sm font-medium text-navy">
+          Consultation method
+        </legend>
+
         <div className="grid gap-3 sm:grid-cols-3">
-          {METHODS.map((m) => (
-            <label key={m.id} className={radio}><input type="radio" name="method" value={m.id} className="accent-navy" />{m.label}</label>
+          {METHODS.map((method) => (
+            <label key={method.id} className={radio}>
+              <input
+                type="radio"
+                name="method"
+                value={method.id}
+                required
+                className="accent-navy"
+              />
+              {method.label}
+            </label>
           ))}
         </div>
-        {errors.method && <p role="alert" className="mt-1.5 text-sm text-red-800">{errors.method}</p>}
+
+        {errors.method && (
+          <p id="method-error" role="alert" className="mt-2 text-sm text-red-800">
+            {errors.method}
+          </p>
+        )}
       </fieldset>
-      <Field id="description" label="Brief description" optional error={errors.description} hint="A few lines is enough. Please do not include confidential details.">
-        <textarea id="description" name="description" rows={4} className={inputClass} {...a("description")} />
+
+      <Field
+        id="description"
+        label="Brief description"
+        optional
+        error={errors.description}
+        hint="A few lines is enough. Please do not include confidential details."
+      >
+        <textarea
+          id="description"
+          name="description"
+          rows={4}
+          maxLength={1000}
+          className={inputClass}
+          {...a("description")}
+        />
       </Field>
+
       <div>
         <label className="flex items-start gap-3 text-sm leading-relaxed text-slate">
-          <input type="checkbox" name="acknowledge" className="mt-1 size-4 accent-navy" aria-invalid={!!errors.acknowledge} />
-          I understand that my details will be used only to respond to this request, and that submitting it does not create a lawyer-client relationship.
+          <input
+            type="checkbox"
+            name="acknowledge"
+            required
+            className="mt-1 size-4 shrink-0 accent-navy"
+            aria-invalid={!!errors.acknowledge}
+            aria-describedby={
+              errors.acknowledge ? "acknowledge-error" : undefined
+            }
+          />
+
+          <span>
+            I acknowledge that my information will be processed to respond
+            to this request, including through the form delivery service,
+            and that submitting this form does not create a lawyer-client
+            relationship.
+          </span>
         </label>
-        {errors.acknowledge && <p role="alert" className="mt-1.5 text-sm text-red-800">{errors.acknowledge}</p>}
+
+        {errors.acknowledge && (
+          <p
+            id="acknowledge-error"
+            role="alert"
+            className="mt-2 text-sm text-red-800"
+          >
+            {errors.acknowledge}
+          </p>
+        )}
       </div>
-      <button type="submit" disabled={status === "loading"} className={`${btn("primary")} w-full disabled:opacity-60 sm:w-auto`}>
-        {status === "loading" && <Loader2 size={16} className="animate-spin" aria-hidden />}
-        {status === "loading" ? "Sending request…" : "Request consultation"}
-      </button>
-      <StatusNotice status={status} message={message} success={{ title: "Request received", body: "This is a request only. Your date and time are not confirmed until the firm replies to you." }} />
+
+ <button
+  type="submit"
+  onClick={() => {
+    console.log("[BookingForm] Button clicked");
+    setMessage("Button click detected. Checking form submission…");
+  }}
+  className="inline-flex min-h-12 w-full cursor-pointer items-center justify-center gap-2 bg-[#17243A] px-6 py-3 text-sm font-semibold text-white hover:bg-[#263954] sm:w-auto"
+>
+  Test consultation submission
+</button>
+
+
+      {message && (
+        <div
+          role={status === "error" ? "alert" : "status"}
+          aria-live="polite"
+          className={`flex gap-3 border p-4 text-sm leading-6 ${
+            status === "success"
+              ? "border-emerald-700/20 bg-emerald-50 text-emerald-900"
+              : status === "error"
+                ? "border-red-700/20 bg-red-50 text-red-900"
+                : "border-line bg-[#F8F5EF] text-slate"
+          }`}
+        >
+          {status === "success" ? (
+            <CheckCircle2
+              size={18}
+              className="mt-0.5 shrink-0"
+              aria-hidden="true"
+            />
+          ) : status === "error" ? (
+            <AlertCircle
+              size={18}
+              className="mt-0.5 shrink-0"
+              aria-hidden="true"
+            />
+          ) : null}
+
+          <p>{message}</p>
+        </div>
+      )}
     </form>
   );
 }

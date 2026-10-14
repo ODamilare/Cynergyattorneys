@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   metadataBase: new URL(firm.siteUrl),
   title: { default: `${firm.name} | ${firm.tagline}`, template: `%s | ${firm.name}` },
   description: `${firm.name}: ${firm.tagline.toLowerCase()}. Clear, considered legal advice.`,
-  openGraph: { type: "website", siteName: firm.name, images: [{ url: "/logo.png", width: 1135, height: 460, alt: firm.name }] },
+  openGraph: { type: "website", siteName: firm.name, images: [{ url: "/logo1.png", width: 1135, height: 460, alt: firm.name }] },
   twitter: { card: "summary_large_image" },
 };
 export const viewport: Viewport = { themeColor: "#1b2f4b" };

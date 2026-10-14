@@ -2,7 +2,7 @@ import Image from "next/image";
 import { Container } from "@/components/ui/Container";
 import { Placeholder } from "@/components/ui/Placeholder";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { team } from "@/content/team";
+import { team } from "@/content/data";
 
 function Silhouette() {
   return (
@@ -24,7 +24,7 @@ export function TeamPreview() {
         />
         <ul className="mt-14 grid gap-10 sm:grid-cols-3">
           {team.map((member) => (
-            <li key={member.id}>
+           <li key={member.slug}>
               <div className="relative aspect-[4/5] overflow-hidden bg-mist">
                 {member.photo ? (
                   <Image src={member.photo} alt={`Portrait of ${member.name}`} fill sizes="(min-width: 640px) 33vw, 100vw" className="object-cover" />

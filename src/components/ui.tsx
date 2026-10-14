@@ -5,11 +5,22 @@ import { isPlaceholder } from "@/config/firm";
 
 export const container = "mx-auto w-full max-w-7xl px-5 sm:px-8 lg:px-12";
 
-export function Logo({ className = "h-12" }: { className?: string }) {
-  // The logo has an off-white background; multiply blends it into the paper colour.
-  return <Image src="/logo.png" alt="Cynergy Attorneys: Seamless Legal Solutions" width={1135} height={460} priority className={`${className} w-auto mix-blend-multiply`} />;
+export function Logo({
+  className = "",
+}: {
+  className?: string;
+}) {
+  return (
+    <Image
+      src="/logo1.png"
+      alt="Cynergy Attorneys: Seamless Legal Solutions"
+      width={1135}
+      height={460}
+      priority
+      className={`block h-16 w-auto max-w-[180px] object-contain mix-blend-multiply sm:h-20 sm:max-w-[220px] lg:h-24 lg:max-w-[260px] ${className}`}
+    />
+  );
 }
-
 const base = "inline-flex items-center justify-center gap-2 px-6 py-3.5 text-sm font-semibold tracking-wide transition-colors duration-200";
 const variants = {
   primary: "bg-navy text-white hover:bg-blue",
@@ -34,9 +45,7 @@ export function TextLink({ href, children }: { href: string; children: React.Rea
 }
 
 /** Flags content that is a sample/proposal awaiting client approval. */
-export function Pending({ children = "Proposed content, pending client approval" }: { children?: React.ReactNode }) {
-  return <p className="inline-block border-l-2 border-gold pl-3 text-xs text-slate">{children}</p>;
-}
+
 
 /** Renders a config value, visibly marking unfilled placeholders. */
 export function Value({ v }: { v: string }) {

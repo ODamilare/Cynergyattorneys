@@ -24,8 +24,12 @@ export async function handleSubmission<T>(
     return NextResponse.json({ fieldErrors: flatten(parsed.error.issues) }, { status: 400 });
   }
   const result = await sendMail(compose(parsed.data));
-  if (result.ok) return NextResponse.json({ ok: true });
-  if (result.reason === "not_configured") {
+
+if (result.ok === true) {
+  return NextResponse.json({ ok: true });
+}
+
+if (result.ok === false && result.reason === "not_configured") {
     return NextResponse.json(
       { message: "Email delivery has not been configured on this website yet, so your message was not sent." },
       { status: 503 },

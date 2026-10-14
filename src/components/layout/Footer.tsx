@@ -15,7 +15,11 @@ export function Footer() {
       <Container className="grid gap-12 py-16 md:grid-cols-12">
         <div className="md:col-span-5">
           <Image src="/logo.png" alt={firm.name} width={1175} height={485} className="h-14 w-auto" />
-          <p className="mt-6 max-w-sm text-sm text-slate-deep">{firm.legal.disclaimer}</p>
+         <p className="mt-6 max-w-sm text-sm leading-7 text-slate-deep">
+  The information on this website is for general informational purposes
+  only and does not constitute legal advice. Contacting the firm does not
+  establish a lawyer-client relationship.
+</p>
         </div>
 
         <nav aria-label="Footer" className="md:col-span-3 md:col-start-7">
@@ -52,7 +56,7 @@ export function Footer() {
       <div className="border-t border-mist">
         <Container className="flex flex-col gap-2 py-6 text-xs text-slate-deep sm:flex-row sm:justify-between">
           <p>© {new Date().getFullYear()} {firm.name}. All rights reserved.</p>
-          <p><Placeholder value={firm.legal.registration} /></p>
+         <p>{firm.tagline}</p>
         </Container>
       </div>
     </footer>

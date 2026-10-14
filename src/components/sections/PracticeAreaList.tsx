@@ -1,6 +1,6 @@
 import { Container } from "@/components/ui/Container";
 import { SectionHeading } from "@/components/ui/SectionHeading";
-import { practiceAreas } from "@/content/practiceAreas";
+import { practiceAreas } from "@/content/data";
 
 export function PracticeAreaList() {
   return (
@@ -18,9 +18,7 @@ export function PracticeAreaList() {
               <h3 className="font-display text-3xl font-medium leading-tight sm:col-span-2">{area.title}</h3>
               <div className="sm:col-span-3">
                 <p className="text-slate-deep">{area.summary}</p>
-                {!area.confirmed && (
-                  <p className="mt-3 text-xs font-medium text-gold-deep">Proposed area, pending firm confirmation</p>
-                )}
+               
               </div>
             </li>
           ))}

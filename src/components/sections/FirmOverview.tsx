@@ -27,7 +27,9 @@ export function FirmOverview() {
             </div>
             <div className="flex justify-between gap-6 py-4">
               <dt className="text-slate-deep">Office</dt>
-              <dd className="text-right"><Placeholder value={firm.contact.address} /></dd>
+             <dd className="text-right">
+  <Placeholder value={firm.address.join(" ")} />
+</dd>
             </div>
           </dl>
         </div>
