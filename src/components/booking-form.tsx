@@ -123,11 +123,7 @@ try {
   noValidate
   className="space-y-6"
 >
-      <div
-        aria-hidden="true"
-        className="absolute -left-[10000px] h-px w-px overflow-hidden"
-      >
-       
+  
 
       <div className="grid gap-6 sm:grid-cols-2">
         <Field id="fullName" label="Full name" error={errors.fullName}>
