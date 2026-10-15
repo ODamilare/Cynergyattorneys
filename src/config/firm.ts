@@ -9,7 +9,7 @@ export const firm = {
   tagline: "Seamless Legal Solutions",
   siteUrl: process.env.NEXT_PUBLIC_SITE_URL ?? "http://localhost:3000",
   established: "12th February 2016",
-  address: ["Head Office: No.28 Adeleke Street, Off Allen Avenue Ikeja Lagos."],
+  address: ["Head Office: Nurses House, Churchgate Street, Victoria Island Lagos."],
   address2: ["Abuja Office: 50 Ike Nwachukwu Close, Trademoore Estate, Phase 1, Lugbe FCT Abuja."],
   phone: "08034117308, 08023084670.",
   whatsapp: "08023084670",

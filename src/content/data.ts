@@ -8,6 +8,24 @@ export type PracticeArea = {
 
 export const practiceAreas: PracticeArea[] = [
   {
+    slug: "oil-gas-law",
+    title: "Oil & Gas Law",
+    summary:
+      "Legal guidance on oil and gas operations, energy transactions, regulatory compliance, licensing, and related commercial matters.",
+  },
+  {
+    slug: "property-law",
+    title: "Property Law",
+    summary:
+      "Legal support for property transactions, land ownership, leases, title verification, property disputes, and related real estate matters.",
+  },
+  {
+    slug: "shipping-admiralty",
+    title: "Shipping & Admiralty",
+    summary:
+      "Legal support for shipping operations, maritime disputes, vessel transactions, cargo claims, and admiralty-related matters.",
+  },
+  {
     slug: "arbitration-litigation",
     title: "Arbitration and Litigation",
     summary:
@@ -74,6 +92,7 @@ export const practiceAreas: PracticeArea[] = [
       "Legal support for insurance-related matters, contractual issues, and associated disputes.",
   },
 ];
+
 
 export type Lawyer = {
   slug: string; name: string; title: string; bio: string;
