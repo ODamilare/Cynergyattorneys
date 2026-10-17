@@ -9,6 +9,11 @@ const serif = Cormorant_Garamond({ subsets: ["latin"], weight: ["400", "500", "6
 const sans = Montserrat({ subsets: ["latin"], variable: "--font-montserrat" });
 
 export const metadata: Metadata = {
+  icons: {
+  icon: "/favicon-32x32.png",
+  shortcut: "/favicon-32x32.png",
+  apple: "/apple-touch-icon.png",
+},
   metadataBase: new URL(firm.siteUrl),
   title: { default: `${firm.name} | ${firm.tagline}`, template: `%s | ${firm.name}` },
   description: `${firm.name}: ${firm.tagline.toLowerCase()}. Clear, considered legal advice.`,
