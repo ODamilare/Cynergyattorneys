@@ -94,17 +94,104 @@ export const practiceAreas: PracticeArea[] = [
 ];
 
 
+
 export type Lawyer = {
-  slug: string; name: string; title: string; bio: string;
-  areas: string[]; photo?: string; profileUrl?: string;
+  slug: string;
+  name: string;
+  title: string;
+  bio: string;
+  areas: string[];
+  photo?: string;
+  profileUrl?: string;
 };
-export const team: Lawyer[] = [1, 2, 3].map((n) => ({
-  slug: `placeholder-${n}`,
-  name: "[Lawyer Name]",
-  title: "[Professional Title]",
-  bio: "[Biography to be supplied by the firm.]",
-  areas: n === 1 ? ["corporate-commercial"] : n === 2 ? ["property", "dispute-resolution"] : ["family-private-client"],
-}));
+
+export const team: Lawyer[] = [
+  {
+    slug: "michael-enaike-ogie",
+    name: "Michael Enaike Ogie",
+    title: "Principal Partner",
+    bio:
+      "Michael Enaike Ogie is an experienced Nigerian legal practitioner with extensive knowledge of maritime, energy, property, commercial, and corporate law. He has successfully structured international maritime and energy transactions for corporate entities. A graduate of the University of Lagos, he obtained his Bachelor of Laws (LL.B. Hons) in 2008 and was called to the Nigerian Bar in 2009. Michael oversees the general activities and administration of Cynergy Attorneys, providing leadership and direction across the firm.",
+    areas: [
+      "shipping-maritime",
+      "shipping-admiralty",
+      "oil-gas-law",
+      "property-law",
+      "real-estate-construction",
+      "capital-markets-corporate-transactions",
+    ],
+  },
+  {
+    slug: "dan-kizito",
+    name: "Dan Kizito",
+    title: "Head of Chambers (Partner)",
+    bio:
+      "Dan Kizito holds a law degree and an MBA from Madonna University, Okija, and the University of Ife, Osun State, respectively. He was called to the Nigerian Bar in 2008. His professional experience includes work with Prof. Abiodun Adesanya (SAN), Goldstream Solicitors, Crane and Clarks Legal, and Dan Kizito & Co. He joined Cynergy Attorneys as a partner in 2018. His areas of practice include commercial litigation, admiralty and shipping, labour and employment, construction and real estate, investments and securities, and oil and gas law. He has also attended professional courses and seminars and is a member of the Nigerian Bar Association and the Nigerian Institute of Management.",
+    areas: [
+      "shipping-admiralty",
+      "shipping-maritime",
+      "oil-gas-law",
+      "property-law",
+      "real-estate-construction",
+      "employment-immigration",
+      "capital-markets-corporate-transactions",
+      "arbitration-litigation",
+    ],
+  },
+  {
+    slug: "omeiza-n-zaccheaus",
+    name: "Omeiza N. Zaccheaus",
+    title: "Legal Practitioner",
+    bio:
+      "Omeiza N. Zaccheaus obtained his Bachelor of Laws from the University of Lagos and was called to the Nigerian Bar in 2007. He has experience in commercial and litigation practice in Abuja and other locations. His work has included banking transactions, loan syndication documentation and recovery, mortgage and debenture registration, legal searches, winding-up procedures, company liquidation, and customer-banker disputes. He has also handled garnishee proceedings and intellectual property registration and protection. He serves as a consultant to the Asset Management Corporation of Nigeria (AMCON) and the Nigerian Export-Import Bank (NEXIM Bank), and has attended leadership development courses.",
+    areas: [
+      "arbitration-litigation",
+      "capital-markets-corporate-transactions",
+      "intellectual-property",
+      "property-law",
+    ],
+  },
+  {
+    slug: "benjamin-kumuo",
+    name: "Benjamin Kumuo",
+    title: "Legal Practitioner",
+    bio:
+      "Benjamin Kumuo is a Nigerian legal practitioner who obtained his LL.B. (Hons) from the University of Lagos and was called to the Nigerian Bar in 2011. He has experience in civil and criminal litigation, legal drafting, commercial negotiations, and debt recovery. Known for his diligence and attention to detail, he brings a collaborative approach to legal practice and is committed to professional development and delivering thorough legal work.",
+    areas: [
+      "arbitration-litigation",
+      "capital-markets-corporate-transactions",
+      "employment-immigration",
+    ],
+  },
+  {
+    slug: "patience-duru",
+    name: "Patience Duru",
+    title: "Legal Practitioner",
+    bio:
+      "Patience Duru obtained her LL.B. (Hons) from Madonna University and was called to the Nigerian Bar in 2011. She focuses on intellectual property and trademarks and has expertise in alternative dispute resolution (ADR). She is recognised for her research skills, diligence, and commitment to legal practice, with an interest in delivering practical legal support across a range of matters.",
+    areas: [
+      "intellectual-property",
+      "arbitration-litigation",
+    ],
+  },
+  {
+    slug: "stella-okafor",
+    name: "Stella Okafor",
+    title: "Firm Secretary",
+    bio:
+      "Stella Okafor is the firm’s secretary. She graduated in Political Science from Tai Solarin College of Education in 2013. She brings strong computer skills, multilingual abilities, and a versatile approach to administrative responsibilities, supporting the firm’s day-to-day operations.",
+    areas: [],
+  },
+  {
+    slug: "victor-ikejiora",
+    name: "Victor Ikejiora",
+    title: "Litigation Clerk",
+    bio:
+      "Victor Ikejiora serves as Cynergy Attorneys’ litigation clerk. He holds an OND and HND in Marketing from the Institute of Management and Technology (IMT), Enugu, and a diploma in data processing. He supports litigation-related administrative work and is recognised for his diligence and ability to work effectively with minimal supervision.",
+    areas: ["arbitration-litigation"],
+  },
+];
+
 
 export type Article = {
   slug: string; title: string; category: string; date: string;
