@@ -63,8 +63,8 @@ export function Hero() {
                 Explore our expertise
               </Button>
 
-              <Button href="/#team" variant="outlineOnDark">
-                Discover our team
+              <Button href="/contact" variant="secondary">
+                Get in touch
               </Button>
             </div>
 

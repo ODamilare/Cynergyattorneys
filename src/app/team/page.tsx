@@ -1,4 +1,4 @@
-
+/*
 "use client";
 
 import type { Metadata } from "next";
@@ -51,7 +51,7 @@ export default function TeamPage() {
 
   return (
     <>
-      {/* Hero */}
+      
       <section className="relative isolate flex min-h-[340px] items-end overflow-hidden bg-ink text-white sm:min-h-[420px] lg:min-h-[460px]">
         <Image
           src="/images/team-hero.jpg"
@@ -100,7 +100,7 @@ export default function TeamPage() {
         />
       </section>
 
-      {/* Team directory */}
+     
       <section className={`${container} py-14 sm:py-20 lg:py-24`}>
         <div className="mb-10 flex flex-col justify-between gap-5 border-b border-line pb-7 sm:mb-12 sm:flex-row sm:items-end">
           <div className="max-w-2xl">
@@ -126,7 +126,7 @@ export default function TeamPage() {
         <div className="grid grid-cols-1 gap-x-7 gap-y-10 sm:grid-cols-2 sm:gap-y-12 lg:grid-cols-3">
           {team.map((lawyer, index) => (
             <article key={lawyer.slug} className="group min-w-0">
-              {/* Portrait */}
+             
               <button
                 type="button"
                 onClick={() => setSelectedLawyer(lawyer)}
@@ -165,7 +165,7 @@ export default function TeamPage() {
                 </div>
               </button>
 
-              {/* Name and title only */}
+           
               <div className="border-b border-line py-5">
                 <button
                   type="button"
@@ -193,7 +193,7 @@ export default function TeamPage() {
         </div>
       </section>
 
-      {/* Profile modal */}
+  
       {selectedLawyer && (
         <div
           className="fixed inset-0 z-[100] flex items-end justify-center bg-ink/75 p-0 backdrop-blur-sm sm:items-center sm:p-5"
@@ -209,7 +209,7 @@ export default function TeamPage() {
             aria-labelledby="lawyer-profile-name"
             className="relative flex max-h-[92dvh] w-full max-w-4xl flex-col overflow-hidden bg-paper shadow-2xl sm:max-h-[88dvh] sm:flex-row"
           >
-            {/* Close button */}
+         
             <button
               type="button"
               onClick={() => setSelectedLawyer(null)}
@@ -219,7 +219,7 @@ export default function TeamPage() {
               <X size={20} />
             </button>
 
-            {/* Modal portrait */}
+           
             <div className="relative hidden w-[36%] shrink-0 bg-[#E7DFD2] sm:block">
               {selectedLawyer.photo ? (
                 <Image
@@ -244,7 +244,7 @@ export default function TeamPage() {
               </div>
             </div>
 
-            {/* Modal content */}
+         
             <div className="min-h-0 flex-1 overflow-y-auto overscroll-contain">
               <div className="p-6 pt-16 sm:p-9 sm:pt-10 lg:p-11">
                 <p className="mb-3 text-[10px] font-semibold uppercase tracking-[0.22em] text-[#A87520]">
@@ -316,3 +316,4 @@ export default function TeamPage() {
     </>
   );
 }
+**/

@@ -17,7 +17,7 @@ export function ContactForm() {
   }
 
   return (
-    <form  action="https://formsubmit.app/f/vaxjuw9zbs" method="POST" noValidate className="space-y-6">
+    <form  action="https://formsubmit.app/f/5hvn7qecb3" method="POST" noValidate className="space-y-6">
 
       <Field id="name" label="Full name" error={errors.name}><input id="name" name="name" autoComplete="name" required className={inputClass} {...a("name")} /></Field>
       <div className="grid gap-6 sm:grid-cols-2">

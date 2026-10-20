@@ -119,7 +119,7 @@ try {
 
   return (
    <form
-  action="https://formsubmit.app/f/vaxjuw9zbs" method="POST"
+  action="https://formsubmit.app/f/5hvn7qecb3" method="POST"
   noValidate
   className="space-y-6"
 >
