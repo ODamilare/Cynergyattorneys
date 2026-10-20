@@ -1,6 +1,6 @@
 import { ButtonLink, Motif,  SectionIntro, TextLink, container } from "@/components/ui";
 import { ArticlePreview, LawyerProfile, PracticeAreaItem } from "@/components/items";
-import { articles, practiceAreas, team } from "@/content/data";
+import { articles, practiceAreas } from "@/content/data";
 import Hero from "@/components/Hero"
 export default function HomePage() {
   return (

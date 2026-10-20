@@ -8,7 +8,7 @@ export default function sitemap(): MetadataRoute.Sitemap {
     "",
     "/about",
     "/practice-areas",
-    "/team",
+    //"/team",
     "/insights",
     "/contact",
     "/book-consultation",

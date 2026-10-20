@@ -1,4 +1,4 @@
-/*
+
 "use client";
 
 import type { Metadata } from "next";
@@ -316,4 +316,3 @@ export default function TeamPage() {
     </>
   );
 }
-**/
