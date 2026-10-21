@@ -13,7 +13,7 @@ export const firm = {
   address2: ["Abuja Office: 50 Ike Nwachukwu Close, Trademoore Estate, Phase 1, Lugbe FCT Abuja."],
   phone: "08034117308, 08023084670.",
   whatsapp: "08023084670",
-  email: " cynergyattorneys@gmail.com.",
+  email: "info@cynergyattorneys.com",
   hours: "Monday to Friday: 8am to 5pm",
   /** Paste a Google Maps *embed* URL here once the address is confirmed. */
   mapEmbedUrl: "",
@@ -29,7 +29,7 @@ export const isPlaceholder = (value: string) => /^\[.*\]$/.test(value.trim());
 export const nav = [
   { href: "/about", label: "About" },
   { href: "/practice-areas", label: "Practice areas" },
- // { href: "/team", label: "Our team" },
+  { href: "/team", label: "Our team" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ] as const;
