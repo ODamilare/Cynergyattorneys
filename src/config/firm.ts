@@ -29,7 +29,7 @@ export const isPlaceholder = (value: string) => /^\[.*\]$/.test(value.trim());
 export const nav = [
   { href: "/about", label: "About" },
   { href: "/practice-areas", label: "Practice areas" },
-  { href: "/team", label: "Our team" },
+ // { href: "/team", label: "Our team" },
   { href: "/insights", label: "Insights" },
   { href: "/contact", label: "Contact" },
 ] as const;
